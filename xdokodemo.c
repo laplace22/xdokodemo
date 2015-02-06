@@ -142,7 +142,6 @@ int main(int argc, char *argv[], char *envp[]) {
     int          packet_size         ;
     int          button_num          ;
     int          key_code            ;
-    int          system_ret          ;
     int          slash_ptr           ;
     char*        char_ptr            ;
     int          status              ;
@@ -154,7 +153,7 @@ int main(int argc, char *argv[], char *envp[]) {
     struct in_addr net,mask;
 
     // dpms setting
-    Bool b_dpms=False;
+    Bool use_dpms=False;
 
     net.s_addr  = inet_addr("0.0.0.0");
     mask.s_addr = inet_addr("0.0.0.0");
@@ -205,7 +204,7 @@ int main(int argc, char *argv[], char *envp[]) {
                 if(port==0)port=34600;
                 break;
             case 'x'://dpms(省電力)設定
-                b_dpms=True;
+                use_dpms=True;
                 break;
             default:
                 usage();
@@ -253,8 +252,8 @@ int main(int argc, char *argv[], char *envp[]) {
                 case CMD_HELLO://HELLO command 受信
                     packet.cmd=1;
                     sendto(recvSocket,&packet,(size_t)sizeof(packet),0,(struct sockaddr *)&sockAddr,(socklen_t)sizeof(sockAddr));
-                    if(b_dpms){
-                        system_ret=system("xset dpms force on");//ディスプレイ省電力停止
+                    if(use_dpms){
+                        status=system("xset dpms force on");//ディスプレイ省電力停止
                     }
                     break;
 
