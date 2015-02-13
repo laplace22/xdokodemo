@@ -28,6 +28,8 @@
 
 #define BUFFER_SIZE 256
 
+#define Button8 Button5 + 3
+#define Button9 Button5 + 4
 
 int chgkey(int mtkey)
 {
@@ -268,18 +270,41 @@ int main(int argc, char *argv[], char *envp[]) {
                 case CMD_RIGHT_DOWN:
                 case CMD_MIDDLE_UP:
                 case CMD_MIDDLE_DOWN:
+                case CMD_X1_UP://４ボタン＆５ボタンクリック関連
+                case CMD_X1_DOWN:
+                case CMD_X2_UP:
+                case CMD_X2_DOWN:
                     button_num = 0;
-                    switch ((packet.cmd-3)>>1){
-                        case 0: button_num = Button1; break;
-                        case 1: button_num = Button3; break;
-                        case 2: button_num = Button2; break;
+                    switch (packet.cmd){
+                        case CMD_LEFT_UP     : button_num = Button1; break;
+                        case CMD_LEFT_DOWN   : button_num = Button1; break;
+                        case CMD_RIGHT_UP    : button_num = Button3; break;
+                        case CMD_RIGHT_DOWN  : button_num = Button3; break;
+                        case CMD_MIDDLE_UP   : button_num = Button2; break;
+                        case CMD_MIDDLE_DOWN : button_num = Button2; break;
+                        case CMD_X1_UP       : button_num = Button8; break;
+                        case CMD_X1_DOWN     : button_num = Button8; break;
+                        case CMD_X2_UP       : button_num = Button9; break;
+                        case CMD_X2_DOWN     : button_num = Button9; break;
                     }
                     XTestFakeMotionEvent(disp,-1,((int)packet.param1)*XDisplayWidth (disp,0)/65535,
                                                  ((int)packet.param2)*XDisplayHeight(disp,0)/65535,0);
-                    if(packet.cmd&1){
-                        XTestFakeButtonEvent(disp,button_num,False,0);
-                    }else{
-                        XTestFakeButtonEvent(disp,button_num,True, 0);
+                    switch (packet.cmd){
+                        case CMD_LEFT_UP     :
+                        case CMD_RIGHT_UP    :
+                        case CMD_MIDDLE_UP   :
+                        case CMD_X1_UP       :
+                        case CMD_X2_UP       :
+                            XTestFakeButtonEvent(disp,button_num,False,0);
+                            break;
+
+                        case CMD_LEFT_DOWN   :
+                        case CMD_RIGHT_DOWN  :
+                        case CMD_MIDDLE_DOWN :
+                        case CMD_X1_DOWN     :
+                        case CMD_X2_DOWN     :
+                            XTestFakeButtonEvent(disp,button_num,True, 0);
+                            break;
                     }
                     break;
 
