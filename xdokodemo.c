@@ -264,16 +264,16 @@ int main(int argc, char *argv[], char *envp[]) {
                                                  ((int)packet.param2)*XDisplayHeight(disp,0)/65535,0);
                     break;
 
-                case CMD_LEFT_UP://マウスクリック関連
-                case CMD_LEFT_DOWN:
-                case CMD_RIGHT_UP:
-                case CMD_RIGHT_DOWN:
-                case CMD_MIDDLE_UP:
-                case CMD_MIDDLE_DOWN:
-                case CMD_X1_UP://４ボタン＆５ボタンクリック関連
-                case CMD_X1_DOWN:
-                case CMD_X2_UP:
-                case CMD_X2_DOWN:
+                case CMD_LEFT_UP     ://マウスクリック関連
+                case CMD_LEFT_DOWN   :
+                case CMD_RIGHT_UP    :
+                case CMD_RIGHT_DOWN  :
+                case CMD_MIDDLE_UP   :
+                case CMD_MIDDLE_DOWN :
+                case CMD_X1_UP       ://４ボタン＆５ボタンクリック関連
+                case CMD_X1_DOWN     :
+                case CMD_X2_UP       :
+                case CMD_X2_DOWN     :
                     button_num = 0;
                     switch (packet.cmd){
                         case CMD_LEFT_UP     : button_num = Button1; break;
@@ -290,11 +290,11 @@ int main(int argc, char *argv[], char *envp[]) {
                     XTestFakeMotionEvent(disp,-1,((int)packet.param1)*XDisplayWidth (disp,0)/65535,
                                                  ((int)packet.param2)*XDisplayHeight(disp,0)/65535,0);
                     switch (packet.cmd){
-                        case CMD_LEFT_UP     :
-                        case CMD_RIGHT_UP    :
-                        case CMD_MIDDLE_UP   :
-                        case CMD_X1_UP       :
-                        case CMD_X2_UP       :
+                        case CMD_LEFT_UP   :
+                        case CMD_RIGHT_UP  :
+                        case CMD_MIDDLE_UP :
+                        case CMD_X1_UP     :
+                        case CMD_X2_UP     :
                             XTestFakeButtonEvent(disp,button_num,False,0);
                             break;
 
@@ -318,8 +318,8 @@ int main(int argc, char *argv[], char *envp[]) {
                     }
                     break;
 
-                case CMD_KEY_UP://キーボード関連
-                case CMD_KEY_DOWN:
+                case CMD_KEY_UP   ://キーボード関連
+                case CMD_KEY_DOWN :
                     key_code = 0;
                     if((key_code=XKeysymToKeycode(disp,chgkey(packet.param1)))<=0)break;
                     if(key_code==49){
