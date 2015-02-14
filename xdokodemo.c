@@ -249,7 +249,6 @@ int main(int argc, char *argv[], char *envp[]) {
         //from アドレスチェック
         addr=ntohl(sockAddr.sin_addr.s_addr);
         if ((addr&mask.s_addr)==ntohl(net.s_addr)){
-            addr=ntohl(sockAddr.sin_addr.s_addr);
             switch(packet.cmd){
                 case CMD_HELLO://HELLO command 受信
                     packet.cmd=1;
